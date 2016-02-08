@@ -10,5 +10,5 @@ def test_add_address(app):
                                notes="hhhhhhh"))
 
 
-def test_add_address(app):
-    app.contact.fill_address_page(Contact(firstname="qqq"))
+def test_add_address_firstname(app):
+    app.contact.create(Contact(firstname="qqq"))
