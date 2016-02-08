@@ -2,7 +2,7 @@
 
 from model.contact import Contact
 
-def test_edit_first_contact(app):
+def test_modify_first_contact(app):
     if app.contact.count_contact() == 0:
         app.contact.create(Contact(firstname="Contact"))
-    app.contact.delete_first_contact()
+    app.contact.modify_first_contact(Contact(firstname="New Contact"))

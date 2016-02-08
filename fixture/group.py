@@ -33,16 +33,16 @@ class GroupHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def edit_first_group(self):
-        wd = self.app.wd
-        self.open_groups_page()
-        self.select_first_group()
-        #edit first group
-        wd.find_element_by_name("edit").click()
-        # update group
-        wd.find_element_by_name("update").click()
-        #return page
-        self.return_to_group_page()
+    # def edit_first_group(self):
+    #     wd = self.app.wd
+    #     self.open_groups_page()
+    #     self.select_first_group()
+    #     #edit first group
+    #     wd.find_element_by_name("edit").click()
+    #     # update group
+    #     wd.find_element_by_name("update").click()
+    #     #return page
+    #     self.return_to_group_page()
 
     def select_first_group(self):
         wd = self.app.wd
@@ -59,6 +59,10 @@ class GroupHelper:
         # submit modification
         wd.find_element_by_name("update").click()
 
+    def count_group(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        return len(wd.find_elements_by_name("selected[]"))
 
     def delete_first_group(self):
         wd = self.app.wd
