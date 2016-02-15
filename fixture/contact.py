@@ -1,4 +1,5 @@
 
+from model.contact import Contact
 
 class ContactHelper:
 
@@ -29,36 +30,36 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def fill_address_page(self, contact):
+    def fill_address_page(self, contacts):
         wd = self.app.wd
         # self.open_add_address_page()
         # fill address page
-        self.fill_address_form(contact)
+        self.fill_address_form(contacts)
         # wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def fill_address_form(self, contact):
+    def fill_address_form(self, contacts):
         wd = self.app.wd
-        self.change_field_value("firstname", contact.firstname)
-        self.change_field_value("middlename", contact.middlename)
-        self.change_field_value("lastname", contact.lastname)
-        self.change_field_value("nickname", contact.nickname)
-        self.change_field_value("title", contact.title)
-        self.change_field_value("company", contact.company)
-        self.change_field_value("address", contact.address)
-        self.change_field_value("home", contact.home)
-        self.change_field_value("mobile", contact.mobile)
-        self.change_field_value("work", contact.work)
-        self.change_field_value("fax", contact.fax)
-        self.change_field_value("email2", contact.email2)
-        self.change_field_value("email3", contact.email3)
-        self.change_field_value("homepage", contact.homepage)
+        self.change_field_value("firstname", contacts.firstname)
+        self.change_field_value("middlename", contacts.middlename)
+        self.change_field_value("lastname", contacts.lastname)
+        self.change_field_value("nickname", contacts.nickname)
+        self.change_field_value("title", contacts.title)
+        self.change_field_value("company", contacts.company)
+        self.change_field_value("address", contacts.address)
+        self.change_field_value("home", contacts.home)
+        self.change_field_value("mobile", contacts.mobile)
+        self.change_field_value("work", contacts.work)
+        self.change_field_value("fax", contacts.fax)
+        self.change_field_value("email2", contacts.email2)
+        self.change_field_value("email3", contacts.email3)
+        self.change_field_value("homepage", contacts.homepage)
         # wd.find_element_by_name("byear").click()
         # wd.find_element_by_name("byear").clear()
         # self.change_field_value("byear", contact.ayear)
         # self.change_field_value("ayear", contact.ayear)
-        self.change_field_value("address2", contact.address2)
-        self.change_field_value("phone2", contact.phone2)
-        self.change_field_value("notes", contact.notes)
+        self.change_field_value("address2", contacts.address2)
+        self.change_field_value("phone2", contacts.phone2)
+        self.change_field_value("notes", contacts.notes)
 
 
     def modify_first_contact(self, new_contact_data):
@@ -89,3 +90,14 @@ class ContactHelper:
         wd = self.app.wd
         self.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.open_home_page()
+        contacts = []
+        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+            fio1 = element.find_element_by_name("selected[]").get_attribute("title")
+            fio = fio1[8:-1]
+            id = element.find_element_by_name("selected[]").get_attribute("id")
+            contacts.append(Contact(fio=fio, id=id))
+        return contacts
