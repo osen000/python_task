@@ -10,11 +10,10 @@ def test_add_address(app):
                                email2="aaaaaa", email3="ssssssss", homepage="ddddddd", address2="ffffff", phone2="gggggggg",
                                notes="hhhhhhh")
     app.contact.create(contacts)
+    assert len(old_contact) + 1 == app.contact.count_contact()
     new_contact = app.contact.get_contact_list()
-    assert len(old_contact) + 1 == len(new_contact)
     old_contact.append(contacts)
     assert sorted(old_contact, key=Contact.id_or_max) == sorted(new_contact, key=Contact.id_or_max)
-    print("h")
 
 # def test_add_address_firstname(app):
 #     app.contact.create(Contact(firstname="qqq"))

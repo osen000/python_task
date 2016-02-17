@@ -16,12 +16,13 @@ class ContactHelper:
         if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("add")) > 0):
             wd.find_element_by_link_text("home").click()
 
-    def create(self, contact):
+    def create(self, contacts):
         wd = self.app.wd
         self.open_add_address_page()
-        self.fill_address_page(contact)
+        self.fill_address_page(contacts)
         # enter contact
         wd.find_element_by_xpath(".//*[@id='content']/form/input[1]").click()
+        self.contact_cache = None
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -71,6 +72,7 @@ class ContactHelper:
         self.fill_address_form(new_contact_data)
         # update contact
         wd.find_element_by_name("update").click()
+        self.contact_cache = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -80,6 +82,7 @@ class ContactHelper:
         #delete first contact
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
 
 
     def return_home_page(self):
@@ -91,13 +94,16 @@ class ContactHelper:
         self.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.open_home_page()
-        contacts = []
-        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
-            fio1 = element.find_element_by_name("selected[]").get_attribute("title")
-            fio = fio1[8:-1]
-            id = element.find_element_by_name("selected[]").get_attribute("id")
-            contacts.append(Contact(fio=fio, id=id))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.open_home_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+                fio1 = element.find_element_by_name("selected[]").get_attribute("title")
+                fio = fio1[8:-1]
+                id = element.find_element_by_name("selected[]").get_attribute("id")
+                self.contact_cache.append(Contact(id=id, fio=fio))
+        return list(self.contact_cache)
