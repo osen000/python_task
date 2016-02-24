@@ -67,9 +67,9 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_xpath(".//*[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
 
-    def open_edit_contact_by_index(self,index):
-        wd = self.app.wd
-        wd.find_elements_by_xpath(".//*[@id='maintable']/tbody/tr[2]/td[8]/a/img")[index].click()
+    # def open_edit_contact_by_index(self,index):
+    #     wd = self.app.wd
+    #     wd.find_elements_by_xpath(".//*[@id='maintable']/tbody/tr[2]/td[8]/a/img")[index].click()
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
@@ -79,7 +79,8 @@ class ContactHelper:
         wd = self.app.wd
         self.open_home_page()
         # open edit contact
-        self.open_edit_contact_by_index(index)
+        self.open_contact_to_edit_by_index(index)
+        # self.open_edit_contact_by_index(index)
         # fill address page
         self.fill_address_form(new_contact_data)
         # update contact

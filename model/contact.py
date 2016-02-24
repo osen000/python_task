@@ -43,6 +43,9 @@ class Contact:
     def __repr__(self):
         return "%s:%s" % (self.id, self.fio)
 
+    def __repr__(self):
+        return "%s:%s,%s,%s" % (self.id, self.firstname, self.middlename, self.lastname)
+
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) and (self.fio is None or other.fio is None or self.fio == other.fio)
 
