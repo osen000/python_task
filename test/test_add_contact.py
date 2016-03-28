@@ -3,11 +3,13 @@
 from model.contact import Contact
 
 
-def test_add_address(app, json_contacts):
+def test_add_address(app, db, json_contacts, check_ui):
     contact = json_contacts
-    old_contact = app.contact.get_contact_list()
+    old_contact = db.get_contact_list()
     app.contact.create(contact)
-    assert len(old_contact) + 1 == app.contact.count_contact()
-    new_contact = app.contact.get_contact_list()
+    # assert len(old_contact) + 1 == app.contact.count_contact()
+    new_contact = db.get_contact_list()
     old_contact.append(contact)
     assert sorted(old_contact, key=Contact.id_or_max) == sorted(new_contact, key=Contact.id_or_max)
+    if check_ui:
+        assert sorted(old_contact, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
